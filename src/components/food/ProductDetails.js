@@ -23,7 +23,7 @@ const ProductDetails = (props) => {
   if (product) {
     return (
       <div className="container food-details">
-        <div className="card">
+        <div className="card card-details">
           <div className="card-body">
             <h2>{product.name}</h2>
             <p>{product.description}</p>

@@ -1,32 +1,50 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Product from '../food/Product'
-import { Link } from 'react-router-dom';
-const Dashboard = () => {
+import { Link, Redirect } from 'react-router-dom';
+import { connect } from 'react-redux';
+
+const Dashboard = ({ enabled, accountType, authenticated }) => {
   const [products, setProducts] = useState(null);
 
   useEffect(() => {
-    axios.get('/products')
-      .then(res => {
-        setProducts(res.data);
-      })
-      .catch(err => {
-        console.log(err);
-      })
-  }, [])
-  let recentProductsMarkup = products ? (
-    products.map(product =>
-      <Link className="link-card-dashboard" to={`/product/${product.productId}`} key={product.productId} >
-        <Product product={product} />
-      </Link >
-    )
-  ) : <p>Cargando...</p>
-  return (
-    <div className="container dashboard">
-      <h3 className="text-center">Lo más comprado <span role="img" aria-label="delicious emoji face">😋</span></h3>
-      {recentProductsMarkup}
-    </div>
-  );
-}
+    if (authenticated && authenticated === true) {
+      axios.get('/products')
+        .then(res => {
+          setProducts(res.data);
+        })
+        .catch(err => {
+          console.log(err);
+        })
+    }
+  }, [enabled, accountType, authenticated])
 
-export default Dashboard;
+  if (!authenticated && authenticated === false) return <Redirect to='/login' />
+  if (!enabled && enabled === false) return <Redirect to='/login' />
+  else {
+    if (products) return (
+      <div className="container dashboard">
+        <h3 className="text-center">Lo más comprado <span role="img" aria-label="delicious emoji face">😋</span></h3>
+        {
+          products && products.map(product => {
+            return (
+              <Link to={`/product/${product.productId}`} key={product.productId}>
+                <Product product={product} />
+              </Link>
+            )
+          })
+        }
+      </div>
+    )
+    else {
+      return <p>Cargando...</p>
+    }
+  }
+}
+const mapStateToProps = state => ({
+  authenticated: state.user.authenticated,
+  enabled: state.user.credentials.enabled,
+  accountType: state.user.credentials.accountType
+})
+
+export default connect(mapStateToProps)(Dashboard);

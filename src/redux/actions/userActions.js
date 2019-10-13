@@ -11,6 +11,7 @@ export const loginUser = (userData, history) => (dispatch) => {
       history.push('/');
     })
     .catch(err => {
+      console.log(err);
       dispatch({
         type: SET_ERRORS,
         payload: err.response.data
@@ -44,10 +45,18 @@ export const signupUser = (newUser, history) => (dispatch) => {
 export const getUserData = () => (dispatch) => {
   axios.get('/user')
     .then(res => {
-      dispatch({
-        type: SET_USER,
-        payload: res.data
-      })
+      if (res.data.credentials.enabled === false) {
+        dispatch({
+          type: SET_ERRORS,
+          payload: { error: 'account disabled' },
+        })
+        dispatch(logOutUser())
+      } else {
+        dispatch({
+          type: SET_USER,
+          payload: res.data
+        })
+      }
     })
     .catch(err => {
       console.log(err);

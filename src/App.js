@@ -14,12 +14,14 @@ import Dashboard from './components/dashboard/Dashboard';
 //Auth components
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
-import AuthRoute from './components/auth/AuthRoute';
-
 import jwtDecode from 'jwt-decode';
-import AuthRouteDasboard from './components/auth/AuthRouteDasboard';
+
 import ProductDetails from './components/food/ProductDetails';
 import PostProduct from './components/food/PostProduct';
+
+import 'react-toastify/dist/ReactToastify.css';
+
+
 
 
 const token = localStorage.FBIdToken;
@@ -42,10 +44,10 @@ function App() {
         <BrowserRouter>
           <Navbar />
           <Switch>
-            <AuthRouteDasboard exact path='/' component={Dashboard} />
-            <AuthRoute path='/login' component={Login} />
-            <AuthRoute path='/signup' component={Signup} />
-            <AuthRouteDasboard path='/product/:productId' component={ProductDetails} />
+            <Route exact path='/' component={Dashboard} />
+            <Route path='/login' component={Login} />
+            <Route path='/signup' component={Signup} />
+            <Route path='/product/:productId' component={ProductDetails} />
             <Route path='/post' component={PostProduct} />
           </Switch>
         </BrowserRouter>
