@@ -18,6 +18,7 @@ import AuthRoute from './components/auth/AuthRoute';
 
 import jwtDecode from 'jwt-decode';
 import AuthRouteDasboard from './components/auth/AuthRouteDasboard';
+import ProductDetails from './components/food/ProductDetails';
 
 
 const token = localStorage.FBIdToken;
@@ -43,6 +44,7 @@ function App() {
             <AuthRouteDasboard exact path='/' component={Dashboard} />
             <AuthRoute path='/login' component={Login} />
             <AuthRoute path='/signup' component={Signup} />
+            <AuthRouteDasboard path='/product/:productId' component={ProductDetails} />
           </Switch>
         </BrowserRouter>
       </div>

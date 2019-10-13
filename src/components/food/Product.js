@@ -8,7 +8,7 @@ const Product = ({ product }) => {
         <p className="product-price">${product.price}</p>
         <p className="product-score">Calificación: {product.score}</p>
       </div>
-    </div>
+    </div >
   );
 }
 

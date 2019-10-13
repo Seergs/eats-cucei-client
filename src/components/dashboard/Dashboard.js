@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import Product from '../food/Product'
+import { Link } from 'react-router-dom';
 const Dashboard = () => {
   const [products, setProducts] = useState(null);
 
@@ -14,7 +15,11 @@ const Dashboard = () => {
       })
   }, [])
   let recentProductsMarkup = products ? (
-    products.map(product => <Product key={product.productId} product={product} />)
+    products.map(product =>
+      <Link className="link-card-dashboard" to={`/product/${product.productId}`} key={product.productId} >
+        <Product product={product} />
+      </Link >
+    )
   ) : <p>Cargando...</p>
   return (
     <div className="container dashboard">
