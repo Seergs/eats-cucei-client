@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { Link } from 'react-router-dom';
+import { Link, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { signupUser } from '../../redux/actions/userActions';
 
@@ -57,6 +57,8 @@ const Signup = (props) => {
     }
     props.signupUser(newUser, props.history);
   }
+
+  if (props.user.authenticated && props.user.authenticated === true) return <Redirect to='/' />
   return (
     <div className="container">
       <form className="login" onSubmit={e => handleSubmit(e)}>

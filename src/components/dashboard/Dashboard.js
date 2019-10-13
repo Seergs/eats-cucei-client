@@ -19,8 +19,8 @@ const Dashboard = ({ enabled, accountType, authenticated }) => {
     }
   }, [enabled, accountType, authenticated])
 
-  if (!authenticated && authenticated === false) return <Redirect to='/login' />
-  if (!enabled && enabled === false) return <Redirect to='/login' />
+  if (authenticated != null && authenticated === false) return <Redirect to='/login' />
+  if (enabled != null && enabled === false) return <Redirect to='/login' />
   else {
     if (products) return (
       <div className="container dashboard">

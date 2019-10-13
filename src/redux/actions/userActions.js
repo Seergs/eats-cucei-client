@@ -8,7 +8,6 @@ export const loginUser = (userData, history) => (dispatch) => {
       setAuthorizationHeader(res.data.token)
       dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
-      history.push('/');
     })
     .catch(err => {
       console.log(err);
@@ -32,7 +31,6 @@ export const signupUser = (newUser, history) => (dispatch) => {
       setAuthorizationHeader(res.data.token)
       dispatch(getUserData());
       dispatch({ type: CLEAR_ERRORS });
-      history.push('/');
     })
     .catch(err => {
       dispatch({
