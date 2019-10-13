@@ -11,3 +11,4 @@ export const CLEAR_ERRORS = 'CLEAR_ERRORS';
 
 //Data reducer types
 export const SET_PRODUCT = 'SET_PRODUCT';
+export const LOADING_PRODUCT = 'LOADING_PRODUCT';

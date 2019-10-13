@@ -8,6 +8,9 @@ const Product = ({ product }) => {
         <p className="product-price">${product.price}</p>
         <p className="product-score">Calificación: {product.score}</p>
       </div>
+      <div className="card-image">
+        <span className="helper"></span><img src={product.imageUrl} alt="producto" />
+      </div>
     </div >
   );
 }
