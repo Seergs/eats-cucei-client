@@ -1,12 +1,19 @@
-import React, { useState } from 'react'
-import axios from 'axios';
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom'
+import { connect } from 'react-redux';
+import { loginUser } from '../../redux/actions/userActions';
 
 const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const { ui: { loading } } = props;
+
+  useEffect(() => {
+    if (props.ui.errors) {
+      setErrors(props.ui.errors)
+    }
+  }, [props.ui.errors])
 
   const handleChangeEmail = e => {
     setEmail(e.target.value);
@@ -16,22 +23,11 @@ const Login = (props) => {
   }
   const handleSubmit = e => {
     e.preventDefault();
-    setLoading(true);
     const credentials = {
       email,
       password
     }
-    axios.post('/login', credentials)
-      .then(res => {
-        localStorage.setItem('FBIdToken', `Bearer ${res.data.token}`)
-        setLoading(false);
-        props.history.push('/');
-      })
-      .catch(err => {
-        console.log(err.response.data)
-        setErrors(err.response.data);
-        setLoading(false);
-      })
+    props.loginUser(credentials, props.history);
   }
   return (
     <div className="container">
@@ -69,5 +65,13 @@ const Login = (props) => {
   );
 }
 
+const mapStateToProps = state => ({
+  user: state.user,
+  ui: state.ui
+})
 
-export default Login;
+const mapActionsToProps = {
+  loginUser
+}
+
+export default connect(mapStateToProps, mapActionsToProps)(Login);

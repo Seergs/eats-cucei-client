@@ -1,6 +1,7 @@
-import React, { useState } from 'react'
-import axios from 'axios';
+import React, { useState, useEffect } from 'react'
 import { Link } from 'react-router-dom';
+import { connect } from 'react-redux';
+import { signupUser } from '../../redux/actions/userActions';
 
 const Signup = (props) => {
 
@@ -16,8 +17,8 @@ const Signup = (props) => {
   const [rfc, setRfc] = useState('');
   const [address, setAddress] = useState('');
   const [organizationName, setOrganizationName] = useState('');
-  const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState({});
+  const { ui: { loading } } = props;
 
   const handleChangeEmail = e => { setEmail(e.target.value) };
   const handleChangePassword = e => { setPassword(e.target.value) };
@@ -31,9 +32,14 @@ const Signup = (props) => {
   const handleChangeOrganizationName = e => { setOrganizationName(e.target.value) };
   const handleChangeAddress = e => { setAddress(e.target.value) };
 
+  useEffect(() => {
+    if (props.ui.errors) {
+      setErrors(props.ui.errors)
+    }
+  }, [props.ui.errors])
+
   const handleSubmit = e => {
     e.preventDefault();
-    setLoading(true);
     const newUser = {
       name,
       email,
@@ -49,17 +55,7 @@ const Signup = (props) => {
       newUser.address = address;
       newUser.organizationName = organizationName;
     }
-    axios.post('/signup', newUser)
-      .then(res => {
-        localStorage.setItem('FBIdToken', `Bearer ${res.data.token}`)
-        setLoading(false);
-        props.history.push('/');
-      })
-      .catch(err => {
-        console.log(err.response.data)
-        setErrors(err.response.data);
-        setLoading(false);
-      })
+    props.signupUser(newUser, props.history);
   }
   return (
     <div className="container">
@@ -156,5 +152,9 @@ const Signup = (props) => {
   );
 }
 
+const mapStateToProps = state => ({
+  user: state.user,
+  ui: state.ui
+})
 
-export default Signup;
+export default connect(mapStateToProps, { signupUser })(Signup);

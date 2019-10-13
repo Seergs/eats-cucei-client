@@ -1,24 +1,52 @@
 import React from 'react';
-import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import { BrowserRouter, Switch } from 'react-router-dom';
+import axios from 'axios';
+//redux
+import { Provider } from 'react-redux';
+import store from './redux/store';
+import { SET_AUTHENTICATED } from './redux/types';
+import { logOutUser, getUserData } from './redux/actions/userActions'
 
 //Layout components
 import Navbar from './components/layout/Navbar'
 import Dashboard from './components/dashboard/Dashboard';
+
+//Auth components
 import Login from './components/auth/Login';
 import Signup from './components/auth/Signup';
+import AuthRoute from './components/auth/AuthRoute';
+
+import jwtDecode from 'jwt-decode';
+import AuthRouteDasboard from './components/auth/AuthRouteDasboard';
+
+
+const token = localStorage.FBIdToken;
+if (token) {
+  const decodedToken = jwtDecode(token);
+  if (decodedToken.exp * 1000 < Date.now()) {
+    store.dispatch(logOutUser());
+    window.location.href = '/login';
+  } else {
+    store.dispatch({ type: SET_AUTHENTICATED });
+    axios.defaults.headers.common['Authorization'] = token;
+    store.dispatch(getUserData());
+  }
+}
 
 function App() {
   return (
-    <div className="App">
-      <BrowserRouter>
-        <Navbar />
-        <Switch>
-          <Route exact path='/' component={Dashboard} />
-          <Route exact path='/login' component={Login} />
-          <Route exact path='/signup' component={Signup} />
-        </Switch>
-      </BrowserRouter>
-    </div>
+    <Provider store={store}>
+      <div className="App">
+        <BrowserRouter>
+          <Navbar />
+          <Switch>
+            <AuthRouteDasboard exact path='/' component={Dashboard} />
+            <AuthRoute path='/login' component={Login} />
+            <AuthRoute path='/signup' component={Signup} />
+          </Switch>
+        </BrowserRouter>
+      </div>
+    </Provider>
   );
 }
 
