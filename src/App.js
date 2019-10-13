@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import axios from 'axios';
 //redux
 import { Provider } from 'react-redux';
@@ -19,6 +19,7 @@ import AuthRoute from './components/auth/AuthRoute';
 import jwtDecode from 'jwt-decode';
 import AuthRouteDasboard from './components/auth/AuthRouteDasboard';
 import ProductDetails from './components/food/ProductDetails';
+import PostProduct from './components/food/PostProduct';
 
 
 const token = localStorage.FBIdToken;
@@ -45,6 +46,7 @@ function App() {
             <AuthRoute path='/login' component={Login} />
             <AuthRoute path='/signup' component={Signup} />
             <AuthRouteDasboard path='/product/:productId' component={ProductDetails} />
+            <Route path='/post' component={PostProduct} />
           </Switch>
         </BrowserRouter>
       </div>

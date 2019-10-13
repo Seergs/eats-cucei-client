@@ -7,20 +7,19 @@ const ProductDetails = (props) => {
   const [quantity, setQuantity] = useState(1);
   const [product, setProduct] = useState(null);
 
+  useEffect(() => {
+    axios.get(`/product/${productId}`)
+      .then(res => {
+        setProduct(res.data);
+      })
+  }, [productId])
+
   const handleChangeInstructions = e => { setInstructions(e.target.value) };
   const handleDecrement = e => { if (quantity > 1) setQuantity(quantity - 1) }
   const handleIncrement = e => { setQuantity(quantity + 1) }
   const handleSubmit = e => { e.preventDefault() }
   const handleOrderClose = e => { props.history.push('/') };
 
-  useEffect(() => {
-    if (!product) {
-      axios.get(`/product/${productId}`)
-        .then(res => {
-          setProduct(res.data);
-        })
-    }
-  }, [product, productId])
   if (product) {
     return (
       <div className="container food-details">
@@ -56,7 +55,7 @@ const ProductDetails = (props) => {
       </div>
     )
   } else {
-    return <p>Loading</p>
+    return <p>Cargando..</p>
   }
 }
 
