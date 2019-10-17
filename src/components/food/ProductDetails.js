@@ -25,7 +25,15 @@ const ProductDetails = (props) => {
   const handleSubmit = e => {
     e.preventDefault();
 
+    const newOrder = {
+      productId,
+      buyerId: userId,
+      productPrice: product.price,
+      instructions,
+      quantity,
+    }
 
+    axios.post('/order', newOrder);
   }
   const handleClickDisable = e => {
     axios.get(`/product/${productId}/disable`)
