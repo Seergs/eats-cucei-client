@@ -36,3 +36,24 @@ export const postProduct = newProduct => (dispatch) => {
       })
     });
 }
+
+export const updateProduct = product => (dispatch) => {
+  dispatch({ type: LOADING_UI });
+  return new Promise((resolve, reject) => {
+    axios.post(`/product/${product.productId}/update`, product)
+      .then(() => {
+        dispatch({ type: CLEAR_ERRORS });
+        console.log('successfully');
+        resolve();
+      })
+      .catch(err => {
+        console.log(err);
+        dispatch({
+          type: SET_ERRORS,
+          payload: err.response.data
+        })
+        reject();
+      })
+  })
+
+}

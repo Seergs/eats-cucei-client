@@ -120,10 +120,12 @@ body {
 .food-details {
   margin: 2em 0;
 }
-.card-details-seller {
-}
 .card-details-seller img {
   margin-bottom: 1em;
+  width: 100%;
+  border-radius: 10px;
+}
+.update-product img {
   width: 100%;
   border-radius: 10px;
 }

@@ -20,6 +20,7 @@ import ProductDetails from './components/food/ProductDetails';
 import PostProduct from './components/food/PostProduct';
 
 import 'react-toastify/dist/ReactToastify.css';
+import ModifyProduct from './components/food/ModifyProduct';
 
 
 
@@ -47,8 +48,9 @@ function App() {
             <Route exact path='/' component={Dashboard} />
             <Route path='/login' component={Login} />
             <Route path='/signup' component={Signup} />
-            <Route path='/product/:productId' component={ProductDetails} />
+            <Route exact path='/product/:productId' component={ProductDetails} />
             <Route path='/post' component={PostProduct} />
+            <Route path='/product/:productId/update' component={ModifyProduct} />
           </Switch>
         </BrowserRouter>
       </div>

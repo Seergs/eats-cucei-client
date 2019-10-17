@@ -22,7 +22,7 @@ const Navbar = (props) => {
                 <Link to='/' className="nav-link">Buscar</Link>
               </li>
               <li className="nav-item">
-                <Link to='/' className="nav-link">Publicar producto</Link>
+                <Link to='/post' className="nav-link">Publicar producto</Link>
               </li>
             </ul>
             <ul className="navbar-nav ml-auto">
