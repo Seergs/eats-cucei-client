@@ -47,50 +47,53 @@ const PostProduct = (props) => {
     }
     props.postProduct(newProduct);
   }
-  if (props.user.credentials.accountType === null) console.log('null');
   if (props.user.authenticated === false) return <Redirect to='/login' />
   else if (props.user.credentials.enabled === false) return <Redirect to='/login' />
   else if (props.user.credentials.accountType === 'buyers') return <Redirect to='/' />
   else {
-    return (
-      <div className="container">
-        <br />
-        <br />
-        <form className="createFood" onSubmit={(e) => handleSubmit(e)}>
-          <h4 className="text-center">Agrega un producto para su venta.</h4>
+    if (props.user.credentials.accountType) {
+      return (
+        <div className="container">
           <br />
-          <div className="form-group">
-            <label htmlFor="name">Nombre</label>
-            <input type="text" name="name" className="form-control" id="name" placeholder="Nombre" value={name} onChange={(e) => handleChangeName(e)} required />
-            {errors.name && (
-              <small id="nameHelp-product" className="form-text text-muted text-center">{errors.name}</small>
+          <br />
+          <form className="createFood" onSubmit={(e) => handleSubmit(e)}>
+            <h4 className="text-center">Agrega un producto para su venta.</h4>
+            <br />
+            <div className="form-group">
+              <label htmlFor="name">Nombre</label>
+              <input type="text" name="name" className="form-control" id="name" placeholder="Nombre" value={name} onChange={(e) => handleChangeName(e)} required />
+              {errors.name && (
+                <small id="nameHelp-product" className="form-text text-muted text-center">{errors.name}</small>
+              )}
+            </div>
+            <div className="form-group">
+              <label htmlFor="price">Precio</label>
+              <input type="number" name="price" className="form-control" id="price" placeholder="Precio" value={price} onChange={(e) => handleChangePrice(e)} required />
+            </div>
+            {errors.price && (
+              <small id="priceHelp" className="form-text text-muted text-center">{errors.price}</small>
             )}
-          </div>
-          <div className="form-group">
-            <label htmlFor="price">Precio</label>
-            <input type="number" name="price" className="form-control" id="price" placeholder="Precio" value={price} onChange={(e) => handleChangePrice(e)} required />
-          </div>
-          {errors.price && (
-            <small id="priceHelp" className="form-text text-muted text-center">{errors.price}</small>
-          )}
-          <div className="form-group">
-            <label htmlFor="description">Descripción</label>
-            <textarea className="form-control" name="description" type="text" id="description" placeholder="Descripción" value={description} onChange={(e) => handleChangeDescription(e)} required></textarea>
-          </div>
-          {errors.description && (
-            <small id="descriptionHelp" className="form-text text-muted text-center">{errors.description}</small>
-          )}
-          <input type="file" id="imageInput" onChange={e => handleChangeImage(e)} hidden required />
-          <button className="btn btn-secondary" onClick={e => handleEditPicture(e)}>Elegir imagen</button>
-          {errors.image && (
-            <small id="imageHelp" className="form-text text-muted">{errors.image}</small>
-          )}
-          <br />
-          <br />
-          <button className="btn btn-success" type="submit" id='post-product' disabled={loading}>Poner a la venta</button>
-        </form>
-      </div >
-    );
+            <div className="form-group">
+              <label htmlFor="description">Descripción</label>
+              <textarea className="form-control" name="description" type="text" id="description" placeholder="Descripción" value={description} onChange={(e) => handleChangeDescription(e)} required></textarea>
+            </div>
+            {errors.description && (
+              <small id="descriptionHelp" className="form-text text-muted text-center">{errors.description}</small>
+            )}
+            <input type="file" id="imageInput" onChange={e => handleChangeImage(e)} hidden required />
+            <button className="btn btn-secondary" onClick={e => handleEditPicture(e)}>Elegir imagen</button>
+            {errors.image && (
+              <small id="imageHelp" className="form-text text-muted">{errors.image}</small>
+            )}
+            <br />
+            <br />
+            <button className="btn btn-success" type="submit" id='post-product' disabled={loading}>Poner a la venta</button>
+          </form>
+        </div >
+      );
+    } else {
+      return <p>Cargando...</p>
+    }
   }
 }
 

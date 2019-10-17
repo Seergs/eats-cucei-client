@@ -29,18 +29,18 @@ body {
 .dashboard .card:hover {
   box-shadow: 3px 3px 3px 3px rgba(0, 0, 0, 0.25);
 }
-.link-card-dashboard:hover {
-  text-decoration: none;
-}
 .dashboard p {
   margin: 0;
 }
 .dashboard .product-name {
   font-weight: 600;
 }
-.dashboard .product-price {
+.product-price {
   color: #4cbc30;
   font-weight: 600;
+}
+.dashboard-link-product:hover {
+  text-decoration: none;
 }
 .card {
   display: grid;
@@ -100,4 +100,30 @@ body {
   text-align: center;
   display: inherit;
   background: #f8f5f5;
+}
+.navbar {
+  padding: 0.3em;
+  background-color: #caa10e;
+  border: 5px solid #a8860e;
+}
+.navbar-brand {
+  font-weight: 600;
+}
+.navbar-toggler {
+  border: none;
+}
+.navbar-toggler:focus,
+.navbar-toggler:active {
+  box-shadow: none;
+  outline: none;
+}
+.food-details {
+  margin: 2em 0;
+}
+.card-details-seller {
+}
+.card-details-seller img {
+  margin-bottom: 1em;
+  width: 100%;
+  border-radius: 10px;
 }

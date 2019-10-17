@@ -28,7 +28,7 @@ const Dashboard = ({ enabled, accountType, authenticated }) => {
         {
           products && products.map(product => {
             return (
-              <Link to={`/product/${product.productId}`} key={product.productId}>
+              <Link className="dashboard-link-product" to={`/product/${product.productId}`} key={product.productId}>
                 <Product product={product} />
               </Link>
             )
