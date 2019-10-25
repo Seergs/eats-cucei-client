@@ -23,18 +23,22 @@ export const uploadImage = (formData) => (dispatch) => {
 
 export const postProduct = newProduct => (dispatch) => {
   dispatch({ type: LOADING_UI });
-  axios.post('/product', newProduct)
-    .then(() => {
-      dispatch({ type: CLEAR_ERRORS });
-      console.log('successfully');
-    })
-    .catch(err => {
-      console.log(err);
-      dispatch({
-        type: SET_ERRORS,
-        payload: err.response.data
+  return new Promise((resolve, reject) => {
+    axios.post('/product', newProduct)
+      .then(() => {
+        dispatch({ type: CLEAR_ERRORS });
+        resolve();
       })
-    });
+      .catch(err => {
+        console.log(err);
+        dispatch({
+          type: SET_ERRORS,
+          payload: err.response.data
+        })
+        reject();
+      });
+  })
+
 }
 
 export const updateProduct = product => (dispatch) => {
@@ -43,7 +47,6 @@ export const updateProduct = product => (dispatch) => {
     axios.post(`/product/${product.productId}/update`, product)
       .then(() => {
         dispatch({ type: CLEAR_ERRORS });
-        console.log('successfully');
         resolve();
       })
       .catch(err => {

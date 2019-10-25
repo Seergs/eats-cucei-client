@@ -21,6 +21,7 @@ import PostProduct from './components/food/PostProduct';
 
 import 'react-toastify/dist/ReactToastify.css';
 import ModifyProduct from './components/food/ModifyProduct';
+import SearchProduct from './components/food/SearchProduct';
 
 
 
@@ -51,6 +52,7 @@ function App() {
             <Route exact path='/product/:productId' component={ProductDetails} />
             <Route path='/post' component={PostProduct} />
             <Route path='/product/:productId/update' component={ModifyProduct} />
+            <Route path='/search' component={SearchProduct} />
           </Switch>
         </BrowserRouter>
       </div>

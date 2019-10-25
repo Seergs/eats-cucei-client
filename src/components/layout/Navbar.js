@@ -1,9 +1,13 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
 import { connect } from "react-redux";
+import { logOutUser } from '../../redux/actions/userActions'
 
 const Navbar = (props) => {
   const authenticated = props.user.authenticated
+
+  const handleLogout = () => props.logOutUser();
+
   if (authenticated) {
     const accountType = props.user.credentials.accountType;
     if (accountType === 'sellers') {
@@ -33,7 +37,7 @@ const Navbar = (props) => {
                 <Link to='/' className="nav-link">Perfil</Link>
               </li>
               <li className="nav-item">
-                <Link to='/' className="nav-link">Salir</Link>
+                <Link onClick={handleLogout} to='/' className="nav-link">Salir</Link>
               </li>
             </ul>
           </div>
@@ -52,7 +56,7 @@ const Navbar = (props) => {
               <Link to='/' className="nav-link">Inicio</Link>
             </li>
             <li className="nav-item">
-              <Link to='/' className="nav-link">Buscar</Link>
+              <Link to='/search' className="nav-link">Buscar</Link>
             </li>
             <li className="nav-item">
               <Link to='/' className="nav-link">Categorías</Link>
@@ -63,7 +67,7 @@ const Navbar = (props) => {
               <Link to='/' className="nav-link">Perfil</Link>
             </li>
             <li className="nav-item">
-              <Link to='/' className="nav-link">Salir</Link>
+              <Link onClick={handleLogout} to='/' className="nav-link">Salir</Link>
             </li>
           </ul>
         </div>
@@ -95,4 +99,6 @@ const mapStateToProps = state => ({
   user: state.user
 })
 
-export default connect(mapStateToProps)(Navbar);
+const mapDispatchToProps = { logOutUser };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Navbar);

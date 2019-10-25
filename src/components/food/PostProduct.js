@@ -2,6 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { uploadImage, postProduct } from '../../redux/actions/dataActions';
 import { Redirect } from 'react-router-dom';
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
+toast.configure({
+  autoClose: 8000,
+  draggable: false,
+})
+
 
 const PostProduct = (props) => {
 
@@ -17,6 +25,23 @@ const PostProduct = (props) => {
       setErrors(props.ui.errors);
     }
   }, [props.ui.errors])
+
+  const notifySuccess = () => {
+    toast.success("Producto publicado", {
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: false,
+    })
+  };
+  const notifyError = () => {
+    toast.error("Algo salió mal", {
+      hideProgressBar: true,
+      closeOnClick: true,
+      pauseOnHover: true,
+      draggable: true
+    })
+  }
 
   const handleChangeName = e => setName(e.target.value);
   const handleChangePrice = e => setPrice(e.target.value);
@@ -45,7 +70,14 @@ const PostProduct = (props) => {
       price,
       imageUrl
     }
-    props.postProduct(newProduct);
+    props.postProduct(newProduct)
+      .then(() => {
+        notifySuccess();
+        props.history.push('/');
+      })
+      .catch(() => {
+        notifyError();
+      })
   }
   if (props.user.authenticated === false) return <Redirect to='/login' />
   else if (props.user.credentials.enabled === false) return <Redirect to='/login' />
