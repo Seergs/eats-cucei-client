@@ -17,6 +17,8 @@ const ModifyProduct = (props) => {
   const [name, setName] = useState('');
   const [price, setPrice] = useState(0);
   const [imageUrl, setImageUrl] = useState('');
+  const [tags, setTags] = useState([]);
+  const [dbTags, setDbTags] = useState([]);
 
   const notifySuccess = () => {
     toast.success("Producto modificado", {
@@ -43,9 +45,17 @@ const ModifyProduct = (props) => {
         setName(res.data.name);
         setPrice(res.data.price);
         setImageUrl(res.data.imageUrl);
+        setTags(res.data.tags);
       })
       .catch(err => console.log(err));
   }, [productId]);
+  useEffect(() => {
+    axios.get('/tags')
+      .then(res => {
+        setDbTags(res.data);
+      })
+      .catch(err => console.log(err));
+  }, [])
 
   const handleChangeDescription = e => { setDescription(e.target.value) };
   const handleChangeName = e => { setName(e.target.value) };
@@ -75,7 +85,8 @@ const ModifyProduct = (props) => {
       description,
       name,
       price,
-      imageUrl
+      imageUrl,
+      tags
     }
     props.updateProduct(product)
       .then(() => {
@@ -87,8 +98,22 @@ const ModifyProduct = (props) => {
         notifyError();
       });
   }
-
-
+  const handleTagChange = e => {
+    if (!tags.includes(e.target.value)) {
+      setTags([...tags, e.target.value]);
+    }
+  }
+  const handleTagClick = e => {
+    e.persist();
+    const tagName = e.target.getAttribute('name')
+    setTags(tags.filter(tag => tag !== tagName));
+  }
+  let displayDBTags = dbTags && dbTags.map(tag => (
+    <option value={tag} key={tag}>{tag}</option>
+  ))
+  let displayProductTags = tags && tags.map(tag => (
+    <span name={tag} className="badge badge-pill badge-primary clickable-badge" key={tag} onClick={e => handleTagClick(e)}>{tag}</span>
+  ))
   if (product) {
     return (
       <div className="container update-product">
@@ -108,7 +133,13 @@ const ModifyProduct = (props) => {
             <label htmlFor="price">Precio</label>
             <input type="text" className="form-control" id="price" placeholder="Precio" value={price} onChange={e => handleChangePrice(e)} />
           </div>
+          <label>Categorías: </label>{displayProductTags}
           <br />
+          <select onChange={e => handleTagChange(e)}>
+            <option value="">Selecciona una categoría</option>
+            {displayDBTags}
+          </select>
+          <br /><br />
           <img src={imageUrl} alt="product" />
           <br /><br />
           <input type="file" id="imageInput" onChange={e => handleChangeImage(e)} hidden required name="image" />

@@ -25,8 +25,8 @@ const ProductDetails = (props) => {
       if (enabled === true) {
         if (accountType) {
           if (product) {
-            if (accountType === 'sellers') return <ProductDetailsSeller product={product} />
-            else return <ProductDetailsBuyer product={product} />
+            if (accountType === 'sellers') return <ProductDetailsSeller product={product} history={props.history} />
+            else return <ProductDetailsBuyer product={product} history={props.history} />
           } else return <p>Cargando...</p>
         } else return <p>Cargando...</p>
       } else return <Redirect to='/' />

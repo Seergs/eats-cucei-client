@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom'
 const ProductDetailsSeller = (props) => {
   const product = props.product;
   const productId = product.productId;
+  const history = props.history;
 
   const handleClickDisable = e => {
     axios.get(`/product/${productId}/disable`)
@@ -28,7 +29,7 @@ const ProductDetailsSeller = (props) => {
         console.log('product deleted');
       })
       .catch(err => console.log(err));
-    props.history.push('/');
+    history.push('/');
   }
 
   return (

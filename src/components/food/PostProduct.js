@@ -4,20 +4,21 @@ import { uploadImage, postProduct } from '../../redux/actions/dataActions';
 import { Redirect } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import axios from 'axios';
 
 toast.configure({
   autoClose: 8000,
   draggable: false,
 })
 
-
 const PostProduct = (props) => {
-
   const [name, setName] = useState('');
   const [price, setPrice] = useState('');
   const [description, setDescription] = useState('');
   const [imageUrl, setImgUrl] = useState(null);
+  const [tags, setTags] = useState([]);
   const [errors, setErrors] = useState({});
+  const [dbTags, setDbTags] = useState([]);
   const { ui: { loading } } = props;
 
   useEffect(() => {
@@ -25,6 +26,14 @@ const PostProduct = (props) => {
       setErrors(props.ui.errors);
     }
   }, [props.ui.errors])
+
+  useEffect(() => {
+    axios.get('/tags')
+      .then(res => {
+        setDbTags(res.data);
+      })
+      .catch(err => console.log(err));
+  }, [])
 
   const notifySuccess = () => {
     toast.success("Producto publicado", {
@@ -64,28 +73,50 @@ const PostProduct = (props) => {
   }
   const handleSubmit = (e) => {
     e.preventDefault();
-    const newProduct = {
-      name,
-      description,
-      price,
-      imageUrl
+    if (!loading) {
+      const newProduct = {
+        name,
+        description,
+        price,
+        imageUrl,
+        tags
+      }
+      props.postProduct(newProduct)
+        .then(() => {
+          notifySuccess();
+          props.history.push('/');
+        })
+        .catch(() => {
+          notifyError();
+        })
     }
-    props.postProduct(newProduct)
-      .then(() => {
-        notifySuccess();
-        props.history.push('/');
-      })
-      .catch(() => {
-        notifyError();
-      })
   }
+
+  const handleTagChange = e => {
+    if (!tags.includes(e.target.value)) {
+      setTags([...tags, e.target.value]);
+    }
+  }
+  const handleTagClick = e => {
+    e.persist();
+    const tagName = e.target.getAttribute('name')
+    setTags(tags.filter(tag => tag !== tagName));
+  }
+
+  let displayDBTags = dbTags && dbTags.map(tag => (
+    <option value={tag} key={tag}>{tag}</option>
+  ))
+  let displayProductTags = tags && tags.map(tag => (
+    <span name={tag} className="badge badge-pill badge-primary clickable-badge" key={tag} onClick={e => handleTagClick(e)}>{tag}</span>
+  ))
+
   if (props.user.authenticated === false) return <Redirect to='/login' />
   else if (props.user.credentials.enabled === false) return <Redirect to='/login' />
   else if (props.user.credentials.accountType === 'buyers') return <Redirect to='/' />
   else {
     if (props.user.credentials.accountType) {
       return (
-        <div className="container">
+        <div className="container post-product">
           <br />
           <br />
           <form className="createFood" onSubmit={(e) => handleSubmit(e)}>
@@ -112,12 +143,24 @@ const PostProduct = (props) => {
             {errors.description && (
               <small id="descriptionHelp" className="form-text text-muted text-center">{errors.description}</small>
             )}
+            <label>Categorías: </label>{displayProductTags}
+            <br />
+            <select onChange={e => handleTagChange(e)}>
+              <option value="">Selecciona una categoría</option>
+              {displayDBTags}
+            </select>
+            <br /><br />
             <input type="file" id="imageInput" onChange={e => handleChangeImage(e)} hidden required />
             <button className="btn btn-secondary" onClick={e => handleEditPicture(e)}>Elegir imagen</button>
             {errors.image && (
               <small id="imageHelp" className="form-text text-muted">{errors.image}</small>
             )}
-            <br />
+            <br /><br />
+            {imageUrl && (
+              <div className="text-center">
+                <img src={imageUrl} alt="product" />
+              </div>
+            )}
             <br />
             <button className="btn btn-success" type="submit" id='post-product' disabled={loading}>Poner a la venta</button>
           </form>

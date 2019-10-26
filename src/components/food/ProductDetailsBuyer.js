@@ -8,9 +8,27 @@ toast.configure({
   autoClose: 8000,
   draggable: false,
 })
+const notifySuccess = () => {
+  toast.success("Pedido realizado, espera la confirmación del vendedor", {
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: false,
+  })
+};
+
+const notifyError = () => {
+  toast.error('Algo salió mal', {
+    hideProgressBar: true,
+    closeOnClick: true,
+    pauseOnHover: true,
+    draggable: true
+  })
+}
 
 const ProductDetailsBuyer = (props) => {
   const product = props.product;
+  const history = props.history;
   const userId = props.user.credentials.userId;
   const [instructions, setInstructions] = useState('');
   const [quantity, setQuantity] = useState(1);
@@ -30,28 +48,14 @@ const ProductDetailsBuyer = (props) => {
     axios.post('/order', newOrder)
       .then(() => {
         notifySuccess();
-        props.history.push('/');
+        history.push('/');
       })
-      .catch(err => notifyError(err))
+      .catch(err => {
+        console.log(err);
+        notifyError();
+      })
   }
 
-  const notifySuccess = () => {
-    toast.success("Pedido realizado, espera la confirmación del vendedor", {
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: false,
-    })
-  };
-
-  const notifyError = (message) => {
-    toast.error(message, {
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true
-    })
-  }
   return (
     <div className="container food-details">
       <div className="card card-details">
