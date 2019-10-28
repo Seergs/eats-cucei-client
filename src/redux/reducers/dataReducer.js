@@ -1,4 +1,7 @@
-import { SET_PRODUCTS, REVIEW_PRODUCT, LOADING_DATA, DELETE_PRODUCT } from '../types';
+import {
+  SET_PRODUCTS, REVIEW_PRODUCT, LOADING_DATA, DELETE_PRODUCT,
+  DISABLE_PRODUCT, ENABLE_PRODUCT
+} from '../types';
 
 const initialState = {
   products: [],
@@ -29,6 +32,16 @@ export default function (state = initialState, action) {
     case DELETE_PRODUCT:
       index = state.products.findIndex(product => product.productId === action.payload);
       state.products.splice(index, 1);
+      return {
+        ...state
+      }
+    case ENABLE_PRODUCT:
+      state.products.find(product => product.productId === action.payload).enabled = true;
+      return {
+        ...state
+      }
+    case DISABLE_PRODUCT:
+      state.products.find(product => product.productId === action.payload).enabled = false;
       return {
         ...state
       }

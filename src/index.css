@@ -42,14 +42,14 @@ body {
 .dashboard-link-product:hover {
   text-decoration: none;
 }
-.card {
+.dashboard .card {
   display: grid;
   grid-template-columns: 60% 40%;
 }
-.card-body {
+.dashboard .card-body {
   grid-column: 1;
 }
-.card-image {
+.dashboard .card-image {
   grid-column: 2;
   height: 100%;
   width: 100%;
@@ -132,4 +132,13 @@ body {
 .post-product img {
   width: 80%;
   border-radius: 10px;
+}
+.order-card {
+  background: #f7f7f7;
+  border: none;
+  margin: 0.2em 0;
+}
+
+.order-card button {
+  margin: 3px;
 }

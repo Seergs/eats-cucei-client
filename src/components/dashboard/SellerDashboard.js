@@ -1,17 +1,20 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import Product from '../food/Product'
-import { connect } from 'react-redux';
-import { getMyProducts } from '../../redux/actions/dataActions';
+import axios from 'axios';
 
-const SellerDashboard = (props) => {
+const SellerDashboard = () => {
+  const [products, setProducts] = useState([]);
+
   useEffect(() => {
-    props.getMyProducts();
+    axios.get('/my-products')
+      .then(res => {
+        setProducts(res.data);
+      })
+      .catch(err => console.log(err));
   }, []);
 
-  const { products, loading } = props.data;
-
-  let productsMarkup = !loading ? (
+  let productsMarkup = products ? (
     products.map(product => (
       <Link className="dashboard-link-product" to={`/product/${product.productId}`} key={product.productId}>
         <Product product={product} />
@@ -19,8 +22,7 @@ const SellerDashboard = (props) => {
     ))
   ) : (
       <p>Cargando...</p>
-    );
-
+    )
   return (
     <div className="dashboard container">
       <br />
@@ -31,8 +33,4 @@ const SellerDashboard = (props) => {
   )
 }
 
-const mapStateToProps = state => ({
-  data: state.data
-})
-
-export default connect(mapStateToProps, { getMyProducts })(SellerDashboard);
+export default SellerDashboard;

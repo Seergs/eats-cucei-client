@@ -1,5 +1,8 @@
 import axios from 'axios';
-import { LOADING_UI, LOADING_DATA, CLEAR_ERRORS, SET_ERRORS, SET_PRODUCTS, REVIEW_PRODUCT, DELETE_PRODUCT } from '../types'
+import {
+  LOADING_UI, LOADING_DATA, CLEAR_ERRORS, SET_ERRORS, SET_PRODUCTS, REVIEW_PRODUCT, DELETE_PRODUCT,
+  DISABLE_PRODUCT, ENABLE_PRODUCT
+} from '../types'
 
 export const getProducts = () => dispatch => {
   dispatch({ type: LOADING_DATA });
@@ -121,4 +124,35 @@ export const deleteProduct = productId => dispatch => {
         reject();
       })
   })
+}
+
+export const disableProduct = productId => dispatch => {
+  dispatch({ type: LOADING_UI })
+  axios.get(`/product/${productId}/disable`)
+    .then(res => {
+      dispatch({
+        type: DISABLE_PRODUCT,
+        payload: productId
+      })
+    })
+    .catch(err => {
+      console.log(err);
+      dispatch({
+        type: SET_ERRORS,
+        payload: err.response.data
+      })
+    })
+}
+
+export const enableProduct = productId => dispatch => {
+  axios.get(`/product/${productId}/enable`)
+    .then(res => {
+      dispatch({
+        type: ENABLE_PRODUCT,
+        payload: productId
+      })
+    })
+    .catch(err => {
+      console.log(err);
+    })
 }

@@ -21,6 +21,7 @@ import PostProduct from './components/food/PostProduct';
 
 import ModifyProduct from './components/food/ModifyProduct';
 import SearchProduct from './components/food/SearchProduct';
+import AllOrders from './components/orders/AllOrders';
 
 
 
@@ -52,6 +53,7 @@ function App() {
             <Route path='/post' component={PostProduct} />
             <Route path='/product/:productId/update' component={ModifyProduct} />
             <Route path='/search' component={SearchProduct} />
+            <Route path='/orders' component={AllOrders} />
           </Switch>
         </BrowserRouter>
       </div>
