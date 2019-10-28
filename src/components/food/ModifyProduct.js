@@ -2,13 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { connect } from 'react-redux';
 import axios from 'axios'
 import { uploadImage, updateProduct } from '../../redux/actions/dataActions';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-
-toast.configure({
-  autoClose: 8000,
-  draggable: false,
-})
+import { notifyError, notifySuccess, confirmAlert } from '../../util/Alerts'
 
 const ModifyProduct = (props) => {
   const productId = props.match.params.productId;
@@ -19,23 +13,6 @@ const ModifyProduct = (props) => {
   const [imageUrl, setImageUrl] = useState('');
   const [tags, setTags] = useState([]);
   const [dbTags, setDbTags] = useState([]);
-
-  const notifySuccess = () => {
-    toast.success("Producto modificado", {
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: false,
-    })
-  };
-  const notifyError = () => {
-    toast.error("Algo salió mal", {
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true
-    })
-  }
 
   useEffect(() => {
     axios.get(`/product/${productId}`)
@@ -49,6 +26,7 @@ const ModifyProduct = (props) => {
       })
       .catch(err => console.log(err));
   }, [productId]);
+
   useEffect(() => {
     axios.get('/tags')
       .then(res => {
@@ -77,26 +55,31 @@ const ModifyProduct = (props) => {
     fileInput.click();
   }
 
-  const handleSubmit = e => {
+  const handleSubmit = async e => {
     e.preventDefault();
-    const productId = props.match.params.productId;
-    const product = {
-      productId,
-      description,
-      name,
-      price,
-      imageUrl,
-      tags
-    }
-    props.updateProduct(product)
-      .then(() => {
-        notifySuccess();
-        props.history.push('/');
+    confirmAlert('Los cambios se aplicarán inmediatamente', 'Sí, modificar')
+      .then(result => {
+        if (result) {
+          const productId = props.match.params.productId;
+          const product = {
+            productId,
+            description,
+            name,
+            price,
+            imageUrl,
+            tags
+          }
+          props.updateProduct(product)
+            .then(() => {
+              notifySuccess('Producto actualizado')
+              props.history.push('/');
+            })
+            .catch(err => {
+              console.log(err)
+              notifyError('Algo salió mal');
+            });
+        }
       })
-      .catch(err => {
-        console.log(err)
-        notifyError();
-      });
   }
   const handleTagChange = e => {
     if (!tags.includes(e.target.value)) {

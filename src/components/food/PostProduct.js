@@ -2,14 +2,8 @@ import React, { useState, useEffect } from 'react';
 import { connect } from 'react-redux';
 import { uploadImage, postProduct } from '../../redux/actions/dataActions';
 import { Redirect } from 'react-router-dom';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import axios from 'axios';
-
-toast.configure({
-  autoClose: 8000,
-  draggable: false,
-})
+import { notifyError, notifySuccess } from '../../util/Alerts';
 
 const PostProduct = (props) => {
   const [name, setName] = useState('');
@@ -35,22 +29,6 @@ const PostProduct = (props) => {
       .catch(err => console.log(err));
   }, [])
 
-  const notifySuccess = () => {
-    toast.success("Producto publicado", {
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: false,
-    })
-  };
-  const notifyError = () => {
-    toast.error("Algo salió mal", {
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true
-    })
-  }
 
   const handleChangeName = e => setName(e.target.value);
   const handleChangePrice = e => setPrice(e.target.value);
@@ -83,11 +61,11 @@ const PostProduct = (props) => {
       }
       props.postProduct(newProduct)
         .then(() => {
-          notifySuccess();
+          notifySuccess('Producto publicado');
           props.history.push('/');
         })
         .catch(() => {
-          notifyError();
+          notifyError('Algo salió mal');
         })
     }
   }

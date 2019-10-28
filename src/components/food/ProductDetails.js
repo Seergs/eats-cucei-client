@@ -18,6 +18,7 @@ const ProductDetails = (props) => {
       .then(res => {
         setProduct(res.data);
       })
+      .catch(err => console.log(err));
   }, [productId])
 
   if (authenticated) {
@@ -29,7 +30,7 @@ const ProductDetails = (props) => {
             else return <ProductDetailsBuyer product={product} history={props.history} />
           } else return <p>Cargando...</p>
         } else return <p>Cargando...</p>
-      } else return <Redirect to='/' />
+      } else return <Redirect to='/login' />
     } else return <p>Cargando...</p>
   } else {
     return <Redirect to='/login' />

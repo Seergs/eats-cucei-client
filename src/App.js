@@ -19,7 +19,6 @@ import jwtDecode from 'jwt-decode';
 import ProductDetails from './components/food/ProductDetails';
 import PostProduct from './components/food/PostProduct';
 
-import 'react-toastify/dist/ReactToastify.css';
 import ModifyProduct from './components/food/ModifyProduct';
 import SearchProduct from './components/food/SearchProduct';
 

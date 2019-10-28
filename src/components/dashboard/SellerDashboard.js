@@ -1,34 +1,38 @@
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
+import React, { useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Product from '../food/Product'
+import { connect } from 'react-redux';
+import { getMyProducts } from '../../redux/actions/dataActions';
 
-const SellerDashboard = () => {
-  const [ownProducts, setOwnProducts] = useState([]);
-
+const SellerDashboard = (props) => {
   useEffect(() => {
-    axios.get('/my-products').then(res => {
-      setOwnProducts(res.data);
-    })
-      .catch(err => console.log(err));
+    props.getMyProducts();
   }, []);
 
-  if (ownProducts) {
-    return (
-      <div className=" dashboard container">
-        <br />
-        <h3>Mis productos</h3>
-        {ownProducts && ownProducts.map(product => (
-          <Link className="dashboard-link-product" to={`/product/${product.productId}`} key={product.productId}>
-            <Product product={product} />
-          </Link>
-        ))}
-      </div>
-    )
-  } else {
-    return <p>Cargando...</p>
-  }
+  const { products, loading } = props.data;
+
+  let productsMarkup = !loading ? (
+    products.map(product => (
+      <Link className="dashboard-link-product" to={`/product/${product.productId}`} key={product.productId}>
+        <Product product={product} />
+      </Link>
+    ))
+  ) : (
+      <p>Cargando...</p>
+    );
+
+  return (
+    <div className="dashboard container">
+      <br />
+      <h3 className="text-center">Mis productos</h3>
+      <br />
+      {productsMarkup}
+    </div>
+  )
 }
 
+const mapStateToProps = state => ({
+  data: state.data
+})
 
-export default SellerDashboard;
+export default connect(mapStateToProps, { getMyProducts })(SellerDashboard);

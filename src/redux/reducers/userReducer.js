@@ -1,4 +1,4 @@
-import { SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED } from '../types';
+import { SET_USER, SET_AUTHENTICATED, SET_UNAUTHENTICATED, REVIEW_PRODUCT } from '../types';
 
 const initialState = {
   authenticated: false,
@@ -21,6 +21,17 @@ export default function (state = initialState, action) {
         authenticated: true,
         ...action.payload
       };
+    case REVIEW_PRODUCT:
+      return {
+        ...state,
+        reviews: [
+          ...state.reviews,
+          {
+            userId: state.credentials.userId,
+            productId: action.payload.productId
+          }
+        ]
+      }
     default: return state
   }
 }

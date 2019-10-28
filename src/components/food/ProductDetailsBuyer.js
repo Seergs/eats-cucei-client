@@ -1,30 +1,7 @@
 import React, { useState } from 'react';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { connect } from 'react-redux'
 import axios from 'axios';
-
-toast.configure({
-  autoClose: 8000,
-  draggable: false,
-})
-const notifySuccess = () => {
-  toast.success("Pedido realizado, espera la confirmación del vendedor", {
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: false,
-  })
-};
-
-const notifyError = () => {
-  toast.error('Algo salió mal', {
-    hideProgressBar: true,
-    closeOnClick: true,
-    pauseOnHover: true,
-    draggable: true
-  })
-}
+import { notifyError, notifySuccess } from '../../util/Alerts';
 
 const ProductDetailsBuyer = (props) => {
   const product = props.product;
@@ -47,18 +24,19 @@ const ProductDetailsBuyer = (props) => {
     }
     axios.post('/order', newOrder)
       .then(() => {
-        notifySuccess();
+        notifySuccess('Pedido realizado, espera la confirmación del vendedor');
         history.push('/');
       })
       .catch(err => {
         console.log(err);
-        notifyError();
+        notifyError('Algo salió mal, intenta de nuevo más tarde');
       })
   }
 
   return (
     <div className="container food-details">
-      <div className="card card-details">
+      <br /><br />
+      <div className="card card-details card-details-buyer">
         <div className="card-body">
           <h2>{product.name}</h2>
           <p>{product.description}</p>

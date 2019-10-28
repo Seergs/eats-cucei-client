@@ -2,28 +2,14 @@ import React, { useState, useEffect } from 'react'
 import { Link, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux';
 import { loginUser } from '../../redux/actions/userActions';
-import { toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { notifyWarning } from '../../util/Alerts';
 
-toast.configure({
-  autoClose: 8000,
-  draggable: false,
-})
 const Login = (props) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [errors, setErrors] = useState({});
   const { ui: { loading } } = props;
 
-
-  const notify = () => {
-    toast.error("Tu cuenta está desactivada, vuelve más tarde", {
-      hideProgressBar: true,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: false,
-    })
-  };
   useEffect(() => {
     if (props.ui.errors) {
       setErrors(props.ui.errors)
@@ -33,7 +19,7 @@ const Login = (props) => {
   useEffect(() => {
     if (props.ui.errors) {
       if (props.ui.errors.error) {
-        notify();
+        notifyWarning('Tu cuenta está desactivada, comunícate con un administrador')
       }
     }
   }, [props.ui.errors])

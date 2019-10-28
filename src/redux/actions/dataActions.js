@@ -1,5 +1,39 @@
 import axios from 'axios';
-import { LOADING_UI, CLEAR_ERRORS, SET_ERRORS } from '../types'
+import { LOADING_UI, LOADING_DATA, CLEAR_ERRORS, SET_ERRORS, SET_PRODUCTS, REVIEW_PRODUCT, DELETE_PRODUCT } from '../types'
+
+export const getProducts = () => dispatch => {
+  dispatch({ type: LOADING_DATA });
+  axios.get('/products')
+    .then(res => {
+      dispatch({
+        type: SET_PRODUCTS,
+        payload: res.data
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: SET_PRODUCTS,
+        payload: []
+      })
+    })
+}
+
+export const getMyProducts = () => dispatch => {
+  dispatch({ type: LOADING_DATA });
+  axios.get('/my-products')
+    .then(res => {
+      dispatch({
+        type: SET_PRODUCTS,
+        payload: res.data
+      })
+    })
+    .catch(err => {
+      dispatch({
+        type: SET_PRODUCTS,
+        payload: []
+      })
+    })
+}
 
 export const uploadImage = (formData) => (dispatch) => {
   dispatch({ type: LOADING_UI });
@@ -59,4 +93,32 @@ export const updateProduct = product => (dispatch) => {
       })
   })
 
+}
+
+export const reviewProduct = productId => dispatch => {
+  axios.post(`/product/${productId}/review`)
+    .then(res => {
+      dispatch({
+        type: REVIEW_PRODUCT,
+        payload: res.data
+      })
+    })
+    .catch(err => console.log(err));
+}
+
+export const deleteProduct = productId => dispatch => {
+  return new Promise((resolve, reject) => {
+    axios.delete(`/product/${productId}`)
+      .then(() => {
+        dispatch({
+          type: DELETE_PRODUCT,
+          payload: productId
+        })
+        resolve();
+      })
+      .catch(err => {
+        console.log(err)
+        reject();
+      })
+  })
 }
