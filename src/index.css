@@ -148,3 +148,50 @@ body {
 .text-gray {
   color: #a1a1a1;
 }
+.tags {
+  margin-top: 1em;
+  display: grid;
+  grid-template-columns: 50% 50%;
+}
+.tags-1 {
+  color: white;
+  background: linear-gradient(151.3deg, #eb6666 0%, #91814b 100%);
+  border-radius: 5px;
+  padding: 2em 1em;
+  margin: 0.2em;
+}
+.tags-2 {
+  color: white;
+  border-radius: 5px;
+  padding: 2em 1em;
+  margin: 0.2em;
+  background: linear-gradient(151.3deg, #dbcd83 0%, #897e1d 100%);
+}
+.tags-3 {
+  color: white;
+  border-radius: 5px;
+  padding: 2em 1em;
+  margin: 0.2em;
+  background: linear-gradient(151.3deg, #c8eb66 0%, #c7db9c 100%);
+}
+.tags-4 {
+  color: white;
+  background: linear-gradient(151.3deg, #66e3eb 0%, #5f80a7 100%);
+  border-radius: 5px;
+  padding: 2em 1em;
+  margin: 0.2em;
+}
+.tags-5 {
+  color: white;
+  border-radius: 5px;
+  padding: 2em 1em;
+  margin: 0.2em;
+  background: linear-gradient(151.3deg, #91e3a8 0%, #69914b 100%);
+}
+.tags-6 {
+  color: white;
+  background: linear-gradient(151.3deg, #bc8160 0%, #ecd455 100%);
+  border-radius: 5px;
+  padding: 2em 1em;
+  margin: 0.2em;
+}

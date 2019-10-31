@@ -65,7 +65,7 @@ const Navbar = (props) => {
                 <Link to='/search' className="nav-link">Buscar</Link>
               </li>
               <li className="nav-item">
-                <Link to='/' className="nav-link">Categorías</Link>
+                <Link to='/tags' className="nav-link">Categorías</Link>
               </li>
             </ul>
             <ul className="navbar-nav ml-auto">
