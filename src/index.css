@@ -142,3 +142,9 @@ body {
 .order-card button {
   margin: 3px;
 }
+.text-green {
+  color: #a8860e;
+}
+.text-gray {
+  color: #a1a1a1;
+}

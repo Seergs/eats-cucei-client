@@ -59,6 +59,9 @@ const Navbar = (props) => {
                 <Link to='/' className="nav-link">Inicio</Link>
               </li>
               <li className="nav-item">
+                <Link to='/my-orders' className="nav-link">Mis pedidos</Link>
+              </li>
+              <li className="nav-item">
                 <Link to='/search' className="nav-link">Buscar</Link>
               </li>
               <li className="nav-item">
