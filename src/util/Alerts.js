@@ -63,3 +63,26 @@ export const inputScoreForSellerProduct = () => {
     })
   })
 }
+
+export const inputScoreForBuyer = () => {
+  return new Promise((resolve, reject) => {
+    Swal.fire({
+      title: 'Califica al comprador',
+      input: 'select',
+      inputOptions: {
+        '0': '0',
+        '1': '1',
+        '2': '2',
+        '3': '3',
+        '4': '4',
+        '5': '5'
+      },
+      confirmButtonText: 'Calificar',
+      showCancelButton: false
+    })
+      .then(result => {
+        const score = result.value;
+        resolve(score)
+      })
+  })
+}

@@ -137,6 +137,7 @@ body {
   background: #f7f7f7;
   border: none;
   margin: 0.2em 0;
+  padding: 1em;
 }
 
 .order-card button {
