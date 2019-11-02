@@ -24,6 +24,8 @@ import SearchProduct from './components/food/SearchProduct';
 import AllOrders from './components/orders/AllOrders';
 import MyOrders from './components/orders/MyOrders';
 import Categories from './components/layout/Categories';
+import Categorie from './components/layout/Categorie';
+import Profile from './components/layout/Profile';
 
 const token = localStorage.FBIdToken;
 if (token) {
@@ -54,7 +56,9 @@ function App() {
             <Route path='/search' component={SearchProduct} />
             <Route path='/orders' component={AllOrders} />
             <Route path='/my-orders' component={MyOrders} />
-            <Route path='/tags' component={Categories} />
+            <Route exact path='/tags' component={Categories} />
+            <Route path='/tags/:tag' component={Categorie} />
+            <Route path='/profile/:userId' component={Profile} />
           </Switch>
         </BrowserRouter>
       </div>

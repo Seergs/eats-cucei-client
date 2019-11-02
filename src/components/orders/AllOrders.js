@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { confirmAlert, notifyError, notifySuccess } from '../../util/Alerts'
+import { Link } from 'react-router-dom';
 
 const AllOrders = () => {
   const [orders, setOrders] = useState([]);
@@ -53,7 +54,7 @@ const AllOrders = () => {
               <p>{order.instructions}</p>
               <p><strong>Total</strong>: ${order.total}</p>
               <div className="text-center">
-                <button type="button" className="btn btn-outline-info">Ver perfil de {order.buyerName}</button>
+                <Link to={`/profile/${order.buyerId}`}> <button type="button" className="btn btn-outline-info">Ver perfil de {order.buyerName}</button></Link>
                 <br />
                 <button onClick={() => handleClickFinish(order.orderId)} type="button" className="btn btn-success">Marcar como entregado</button>
               </div>

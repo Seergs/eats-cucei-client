@@ -22,3 +22,44 @@ export const confirmAlert = (message, buttonText) => {
     })
   })
 }
+
+export const inputScoreForSellerProduct = () => {
+  return new Promise((resolve, reject) => {
+    Swal.mixin({
+      input: 'select',
+      confirmButtonText: 'Siguiente &rarr;',
+      showCancelButton: false,
+      progressSteps: ['1', '2']
+    }).queue([
+      {
+        title: 'Califica tu producto',
+        inputOptions: {
+          '0': '0',
+          '1': '1',
+          '2': '2',
+          '3': '3',
+          '4': '4',
+          '5': '5'
+        }
+      }, {
+        title: 'Califica al vendedor',
+        inputOptions: {
+          '0': '0',
+          '1': '1',
+          '2': '2',
+          '3': '3',
+          '4': '4',
+          '5': '5'
+        }
+      }
+    ]).then(result => {
+      const scoreProduct = result.value[0];
+      const scoreSeller = result.value[1];
+      const score = {
+        scoreProduct,
+        scoreSeller
+      }
+      resolve(score)
+    })
+  })
+}

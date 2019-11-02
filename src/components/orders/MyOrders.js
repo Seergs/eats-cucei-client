@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import axios from 'axios'
-import { confirmAlert, notifySuccess, notifyError } from '../../util/Alerts'
+import { confirmAlert, notifySuccess, notifyError, inputScoreForSellerProduct } from '../../util/Alerts'
 
 
 const MyOrders = () => {
@@ -14,13 +14,33 @@ const MyOrders = () => {
       .catch(err => console.log(err));
   }, [])
 
-  const handleClickFinish = orderId => {
+  const handleClickFinish = (orderId, productId, sellerId) => {
     confirmAlert('Esta acción no se podrá revertir', 'Sí, marcar como recibido')
       .then(res => {
         if (res) {
           axios.get(`/order/${orderId}/buyer`)
             .then(() => {
               notifySuccess('Pedido terminado');
+              inputScoreForSellerProduct().then(res => {
+                const scoreProduct = parseInt(res.scoreProduct);
+                const scoreSeller = parseInt(res.scoreSeller);
+                const productReview = { score: scoreProduct }
+                const userReview = { score: scoreSeller }
+                axios.post(`/product/${productId}/review`, productReview)
+                  .then(res => {
+                    console.log(res.data);
+                  })
+                  .then(res => {
+                    axios.post(`/user/${sellerId}/review`, userReview)
+                      .then(res => {
+                        console.log(res.data);
+                      })
+                  })
+                  .catch(err => {
+                    console.log(err.response.data)
+                    notifyError('Algo salió mal');
+                  });
+              })
             })
             .catch(() => {
               notifyError('Algo salió mal');
@@ -50,7 +70,7 @@ const MyOrders = () => {
                 <small>{order.createdAt}</small>
                 <p><strong>Total</strong>: ${order.total}</p>
                 <div className="text-center">
-                  <button onClick={() => handleClickFinish(order.orderId)} type="button" className="btn btn-success">Marcar como recibido</button>
+                  <button onClick={() => handleClickFinish(order.orderId, order.productId, order.sellerId)} type="button" className="btn btn-success">Marcar como recibido</button>
                 </div>
               </div>
             )}

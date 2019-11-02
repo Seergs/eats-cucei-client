@@ -5,6 +5,7 @@ import { logOutUser } from '../../redux/actions/userActions'
 
 const Navbar = (props) => {
   const authenticated = props.user.authenticated
+  const userId = props.user.credentials.userId;
 
   const handleLogout = () => props.logOutUser();
 
@@ -37,7 +38,7 @@ const Navbar = (props) => {
                 <Link to='/' className="nav-link">Estadísticas</Link>
               </li>
               <li className="nav-item">
-                <Link to='/' className="nav-link">Perfil</Link>
+                <Link to={`/profile/${userId}`} className="nav-link">Perfil</Link>
               </li>
               <li className="nav-item">
                 <Link onClick={handleLogout} to='/' className="nav-link">Salir</Link>
@@ -70,7 +71,7 @@ const Navbar = (props) => {
             </ul>
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <Link to='/' className="nav-link">Perfil</Link>
+                <Link to={`/profile/${userId}`} className="nav-link">Perfil</Link>
               </li>
               <li className="nav-item">
                 <Link onClick={handleLogout} to='/' className="nav-link">Salir</Link>
