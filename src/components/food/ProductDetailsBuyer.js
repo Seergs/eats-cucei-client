@@ -24,7 +24,7 @@ const ProductDetailsBuyer = (props) => {
     }
     axios.post('/order', newOrder)
       .then(() => {
-        notifySuccess('Pedido realizado, espera la confirmación del vendedor');
+        notifySuccess('Pedido realizado, ahora lo puedes ver en la sección de pedidos');
         history.push('/');
       })
       .catch(err => {

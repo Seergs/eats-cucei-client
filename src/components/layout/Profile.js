@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
+import { Link } from 'react-router-dom';
+import EditProfile from '../user/EditProfile';
 
 const Profile = (props) => {
   const [user, setUser] = useState({});
@@ -35,7 +37,12 @@ const Profile = (props) => {
 
         {user.isCurrentUser ? (
           <div className="text-center">
-            <button className="btn btn-primary">Editar mi cuenta</button>
+            <Link to={{
+              pathname: '/profile/edit',
+              state: {
+                user
+              }
+            }}><button className="btn btn-primary">Editar mi cuenta</button></Link>
           </div>
         ) : null}
 

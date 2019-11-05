@@ -26,6 +26,7 @@ import MyOrders from './components/orders/MyOrders';
 import Categories from './components/layout/Categories';
 import Categorie from './components/layout/Categorie';
 import Profile from './components/layout/Profile';
+import EditProfile from './components/user/EditProfile';
 
 const token = localStorage.FBIdToken;
 if (token) {
@@ -58,6 +59,7 @@ function App() {
             <Route path='/my-orders' component={MyOrders} />
             <Route exact path='/tags' component={Categories} />
             <Route path='/tags/:tag' component={Categorie} />
+            <Route path='/profile/edit' component={EditProfile} />
             <Route path='/profile/:userId' component={Profile} />
           </Switch>
         </BrowserRouter>

@@ -227,3 +227,6 @@ body {
   border-radius: 27px;
   color: white;
 }
+.edit-profile img {
+  width: 100%;
+}
