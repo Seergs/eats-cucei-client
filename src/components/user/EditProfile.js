@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
 import { connect } from 'react-redux';
 import { uploadImage } from '../../redux/actions/userActions';
+import axios from 'axios';
+import { notifySuccess, notifyError, confirmAlert } from '../../util/Alerts'
 
 const EditProfile = (props) => {
   const user = props.location.state.user
@@ -23,7 +25,6 @@ const EditProfile = (props) => {
     formData.append('image', image);
     props.uploadImage(formData)
       .then(imageUrl => {
-        console.log(imageUrl);
         setImgUrl(imageUrl);
       })
       .catch(err => {
@@ -34,6 +35,27 @@ const EditProfile = (props) => {
   const handleEditPicture = () => {
     const fileInput = document.getElementById('imageInput');
     fileInput.click();
+  }
+
+  const handleClickEdit = () => {
+    confirmAlert('Los cambios se efectuarán de inmediato', 'Sí, actualizar')
+      .then(res => {
+        if (res) {
+          const userData = {
+            name,
+            phoneNumber
+          }
+          axios.post('/user/update', userData)
+            .then(() => {
+              notifySuccess('Perfil actualizado')
+            })
+            .catch(err => {
+              console.log(err);
+              notifyError('Algo salió mal');
+            })
+        }
+      })
+
   }
 
   return (
@@ -56,6 +78,11 @@ const EditProfile = (props) => {
           <img src={imageUrl} alt="product" />
         </div>
       )}
+      <br />
+      <div className="text-center">
+        <button onClick={handleClickEdit} className="btn btn-primary">Actualizar</button>
+      </div>
+
     </div>
   );
 }
