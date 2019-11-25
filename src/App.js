@@ -27,6 +27,7 @@ import Categories from './components/layout/Categories';
 import Categorie from './components/layout/Categorie';
 import Profile from './components/layout/Profile';
 import EditProfile from './components/user/EditProfile';
+import Stats from './components/layout/Stats';
 
 const token = localStorage.FBIdToken;
 if (token) {
@@ -61,6 +62,7 @@ function App() {
             <Route path='/tags/:tag' component={Categorie} />
             <Route path='/profile/edit' component={EditProfile} />
             <Route path='/profile/:userId' component={Profile} />
+            <Route path='/statistics' component={Stats} />
           </Switch>
         </BrowserRouter>
       </div>

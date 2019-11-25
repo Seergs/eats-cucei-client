@@ -27,7 +27,6 @@ const BuyerDashboard = () => {
     <div className="dashboard container">
       <br />
       <h3 className="text-center">Lo más comprado <span role="img" aria-label="emoji">😋</span></h3>
-      <br />
       {productsMarkup}
     </div>
   )

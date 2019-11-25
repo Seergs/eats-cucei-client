@@ -35,9 +35,6 @@ const Navbar = (props) => {
             </ul>
             <ul className="navbar-nav ml-auto">
               <li className="nav-item">
-                <Link to='/' className="nav-link">Estadísticas</Link>
-              </li>
-              <li className="nav-item">
                 <Link to={`/profile/${userId}`} className="nav-link">Perfil</Link>
               </li>
               <li className="nav-item">
