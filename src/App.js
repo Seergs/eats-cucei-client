@@ -29,6 +29,9 @@ import Profile from './components/layout/Profile';
 import EditProfile from './components/user/EditProfile';
 import Stats from './components/layout/Stats';
 
+axios.defaults.baseURL = 'https://us-central1-cuceifood.cloudfunctions.net/api';
+
+
 const token = localStorage.FBIdToken;
 if (token) {
   const decodedToken = jwtDecode(token);
